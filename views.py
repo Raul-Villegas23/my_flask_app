@@ -15,6 +15,7 @@ def allowed_file(filename):
 def home():
     return render_template('index.html')
 
+# Add the upload route below
 @views.route('/upload', methods=['GET', 'POST'])
 def upload_video():
     if request.method == 'POST':
@@ -37,6 +38,7 @@ def upload_video():
 
     return render_template('upload.html')
 
+# Add the process_video function below 
 def process_video(filepath, fps):
     # Modify the FFmpeg command to save images in the "input" folder
     ffmpeg_command = [
@@ -45,14 +47,6 @@ def process_video(filepath, fps):
         "-qscale:v", "1", "-qmin", "1", "-vf", f"fps={fps}",
         f"/workspace/input/%04d.jpg"
     ]
-
-    try:
-        # Execute FFmpeg command
-        subprocess.run(ffmpeg_command, check=True)
-    except subprocess.CalledProcessError as e:
-        # Capture and print the error details
-        error_message = e.stderr.decode('utf-8') if e.stderr else 'An error occurred without error message.'
-        print("An error occurred:", error_message)
 
     # Docker command for Gaussian Splatting
     gaussian_splatting_command_convert = [
@@ -66,9 +60,16 @@ def process_video(filepath, fps):
         "docker", "run", "--rm", "--gpus", "all", "-it",
         "-v", f"{UPLOAD_FOLDER}:/workspace",
         "airstudio/gaussian-splatting", "/bin/bash", "-c",
-        "cd gaussian-splatting && python3 train.py -s /workspace"
+        "cd gaussian-splatting && python3 train.py  --iterations 3000 --save_iterations 1000 3000 -s /workspace -m /workspace/output",
     ]
 
+    try:
+        # Execute FFmpeg command
+        subprocess.run(ffmpeg_command, check=True)
+    except subprocess.CalledProcessError as e:
+        # Capture and print the error details
+        error_message = e.stderr.decode('utf-8') if e.stderr else 'An error occurred without error message.'
+        print("An error occurred:", error_message)
 
     try:
         # Execute Gaussian Splatting command
@@ -77,8 +78,8 @@ def process_video(filepath, fps):
         # Capture and print the error details
         error_message = e.stderr.decode('utf-8') if e.stderr else 'An error occurred without error message.'
         print("An error occurred:", error_message)
-        # Optionally, re-raise the exception if you want the error to propagate
-        # raise e
+
+
     try:
         # Execute Gaussian Splatting command
         subprocess.run(gaussian_splatting_command_train, check=True)
@@ -86,8 +87,7 @@ def process_video(filepath, fps):
         # Capture and print the error details
         error_message = e.stderr.decode('utf-8') if e.stderr else 'An error occurred without error message.'
         print("An error occurred:", error_message)
-        # Optionally, re-raise the exception if you want the error to propagate
-        # raise e
+
 
 # Define the input folder path inside UPLOAD_FOLDER
 input_folder = os.path.join(UPLOAD_FOLDER, "input")
