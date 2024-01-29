@@ -2,6 +2,7 @@ import os
 import subprocess
 from flask import Blueprint, render_template, request
 from werkzeug.utils import secure_filename
+import ffmpeg
 
 views = Blueprint(__name__, 'views')
 
@@ -11,9 +12,14 @@ ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov', 'wmv'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
 @views.route('/')
 def home():
     return render_template('index.html')
+
+@views.route('/splat')
+def splatting():
+    return render_template('splat.html')
 
 # Add the upload route below
 @views.route('/upload', methods=['GET', 'POST'])
@@ -41,11 +47,13 @@ def upload_video():
 # Add the process_video function below 
 def process_video(filepath, fps):
     # Modify the FFmpeg command to save images in the "input" folder
+    iterations_1 = request.form.get('iterations_1')
+    iterations_2 = request.form.get('iterations_2')
+
     ffmpeg_command = [
-        "docker", "run", "--rm", "-v", f"{UPLOAD_FOLDER}:/workspace",
-        "jrottenberg/ffmpeg", "-i", f"/workspace/{os.path.basename(filepath)}",
+        "ffmpeg", "-i", os.path.join(UPLOAD_FOLDER, os.path.basename(filepath)),
         "-qscale:v", "1", "-qmin", "1", "-vf", f"fps={fps}",
-        f"/workspace/input/%04d.jpg"
+        os.path.join(UPLOAD_FOLDER, "input/%04d.jpg")
     ]
 
     # Docker command for Gaussian Splatting
@@ -60,7 +68,7 @@ def process_video(filepath, fps):
         "docker", "run", "--rm", "--gpus", "all", "-it",
         "-v", f"{UPLOAD_FOLDER}:/workspace",
         "airstudio/gaussian-splatting", "/bin/bash", "-c",
-        "cd gaussian-splatting && python3 train.py  --iterations 3000 --save_iterations 1000 3000 -s /workspace -m /workspace/output",
+        f"cd gaussian-splatting && python3 train.py --iterations {iterations_2} --save_iterations {iterations_1} {iterations_2} -s /workspace -m /workspace/output",
     ]
 
     try:
@@ -72,7 +80,7 @@ def process_video(filepath, fps):
         print("An error occurred:", error_message)
 
     try:
-        # Execute Gaussian Splatting command
+        # Execute Gaussian Splatting convert command
         subprocess.run(gaussian_splatting_command_convert, check=True)
     except subprocess.CalledProcessError as e:
         # Capture and print the error details
@@ -81,7 +89,7 @@ def process_video(filepath, fps):
 
 
     try:
-        # Execute Gaussian Splatting command
+        # Execute Gaussian Splatting train command
         subprocess.run(gaussian_splatting_command_train, check=True)
     except subprocess.CalledProcessError as e:
         # Capture and print the error details

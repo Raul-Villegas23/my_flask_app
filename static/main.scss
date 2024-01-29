@@ -12,10 +12,20 @@ h1 {
     color: #333;
     text-align: center;
 }
+
 a {
-    color: #007bff;
+    color: #0957a9;
     text-decoration: none;
+    margin: 0 5px;
 }
+
+.link-container {
+    display: flex;
+    justify-content: center; /* Align items horizontally to the center */
+    align-items: center; /* Align items vertically to the center */
+    flex-wrap: wrap; /* Allow items to wrap */
+}
+
 form {
     max-width: 400px;
     margin: 0 auto;
@@ -30,8 +40,9 @@ input[type='text'],
 input[type='submit'],
 button {
     width: 100%;
-    padding: 10px;
-    margin: 10px 0;
+    display: inline-block; /* Or block, depending on your design */
+    padding: 10px 20px; /* Vertical and horizontal padding */
+    margin: 5px; 
     border-radius: 5px;
     border: 1px solid #ddd;
 }

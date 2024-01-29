@@ -4,15 +4,16 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     </head>
     <body>
-        <div>
-            <h1>3-D Gaussian Splatting</h1>
-            <!-- Button to go to the upload page -->
+        <h1>3-D Gaussian Splatting</h1>
+        <!-- Button to go to the upload page -->
+        <div class="link-container">
             <a href="/upload" class="button">Go to Upload Page</a>
+            <a href="/splat" class="button">Go to Splat Page</a>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.141.0/build/three.min.js"></script>
+        <div id="threejs-container"></div>
+        <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>
 
-        <script
-            type= "text/javascript"
-            src= "{{url_for('static', filename='index.js')}}"
-        ></script>
+
     </body>
 </html>
