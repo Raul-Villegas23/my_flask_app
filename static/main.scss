@@ -17,6 +17,7 @@ a {
     color: #0957a9;
     text-decoration: none;
     margin: 0 5px;
+    font-weight: bold;
 }
 
 .link-container {
@@ -45,6 +46,8 @@ button {
     margin: 5px; 
     border-radius: 5px;
     border: 1px solid #ddd;
+
+    
 }
 
 input[type='submit'] {
@@ -52,6 +55,7 @@ input[type='submit'] {
     color: white;
     border: none;
     cursor: pointer;
+    font-weight: bold;
 }
 
 input[type='submit']:hover {
@@ -61,4 +65,5 @@ input[type='submit']:hover {
 label {
     margin-top: 10px;
     display: block;
+    font-weight: bold;
 }

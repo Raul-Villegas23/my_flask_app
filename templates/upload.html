@@ -1,3 +1,4 @@
+
 <head>
     <title>Upload Video</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
@@ -6,7 +7,9 @@
     <h1>Upload a Video File</h1>
     <form method="post" enctype="multipart/form-data">
         
+        <label for="file">Video File:</label>
         <input type="file" name="file">
+
         <label for="fps">Frames per Second (FPS):</label>
         <input type="text" id="fps" name="fps" value="2">
 

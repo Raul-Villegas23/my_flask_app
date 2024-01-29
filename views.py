@@ -1,17 +1,25 @@
 import os
 import subprocess
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, send_from_directory, redirect, url_for, send_file
 from werkzeug.utils import secure_filename
 import ffmpeg
+import zipfile
 
 views = Blueprint(__name__, 'views')
 
 UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER', 'C:/Users/raul_/Docker_tutorials/my_flask_app/data')
 ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov', 'wmv'}
+OUTPUT_ZIP_FILE = 'output.zip' # Name of the output zip file
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def zip_output_folder(output_folder_path, zip_file_path):
+    with zipfile.ZipFile(zip_file_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+        for root, dirs, files in os.walk(output_folder_path):
+            for file in files:
+                file_path = os.path.join(root, file)
+                zipf.write(file_path, os.path.relpath(file_path, output_folder_path))
 
 @views.route('/')
 def home():
@@ -20,6 +28,14 @@ def home():
 @views.route('/splat')
 def splatting():
     return render_template('splat.html')
+
+@views.route('/download')
+def download_zip():
+    zip_file_path = os.path.join(UPLOAD_FOLDER, OUTPUT_ZIP_FILE)  # Path for the zip file
+
+    # Use send_file to send the zip file with suggested download location
+    return send_file(zip_file_path, as_attachment=True, download_name='output.zip')
+
 
 # Add the upload route below
 @views.route('/upload', methods=['GET', 'POST'])
@@ -35,7 +51,11 @@ def upload_video():
 
             try:
                 process_video(filepath, fps)
-                return 'Video Uploaded and Processed Successfully'
+                output_folder = os.path.join(UPLOAD_FOLDER, "output")
+                zip_file_path = os.path.join(UPLOAD_FOLDER, OUTPUT_ZIP_FILE)
+                zip_output_folder(output_folder, zip_file_path)
+
+                return redirect(url_for('views.download_zip'))
             except Exception as e:
                 # Log the exception
                 return f'An error occurred: {str(e)}', 500
@@ -100,6 +120,7 @@ def process_video(filepath, fps):
 # Define the input folder path inside UPLOAD_FOLDER
 input_folder = os.path.join(UPLOAD_FOLDER, "input")
 os.makedirs(input_folder, exist_ok=True)
+
 
 
 
