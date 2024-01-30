@@ -5,22 +5,25 @@
 </head>
 <body>
     <h1>Upload a Video File</h1>
-    <form method="post" enctype="multipart/form-data">
-        
-        <label for="file">Video File:</label>
-        <input type="file" name="file">
+        <!-- Button to go to the upload page -->
+        <div class="link-container">
+            <a href="/" class="button">Go to Home Page</a>
+        </div>
+        <form method="post" enctype="multipart/form-data">
+            
+            <label for="file">Video File</label>
+            <input type="file" id="file" name="file">
 
-        <label for="fps">Frames per Second (FPS):</label>
-        <input type="text" id="fps" name="fps" value="2">
+            <label for="fps">Frames per Second (FPS)</label>
+            <input type="text" id="fps" name="fps" value="2">
 
-        <label for="iterations_1">Iterations (First):</label>
-        <input type="text" id="iterations_1" name="iterations_1"  required>
-        
-        <label for="iterations_2">Iterations (Second):</label>
-        <input type="text" id="iterations_2" name="iterations_2" required>    
+            <label for="iterations_1">Training iterations of the first Gaussian model</label>
+            <input type="text" id="iterations_1" name="iterations_1"  required>
+            
+            <label for="iterations_2">Training iterations of the second Gaussian model</label>
+            <input type="text" id="iterations_2" name="iterations_2" required>    
 
-        <input type="submit" value="Upload">
-
-    </form>
+            <input type="submit" value="Upload">
+        </form>
 </body>
 
