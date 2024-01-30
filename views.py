@@ -1,6 +1,9 @@
 import os
+import re
+import shutil
 import subprocess
 from flask import Blueprint, render_template, request, send_from_directory, redirect, url_for, send_file
+from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import ffmpeg
 import zipfile
@@ -25,9 +28,76 @@ def zip_output_folder(output_folder_path, zip_file_path):
 def home():
     return render_template('index.html')
 
+def get_latest_iteration_folder(base_path='data/output/point_cloud'):
+    # List all directories in the base_path
+    try:
+        dirs = [d for d in os.listdir(base_path) if os.path.isdir(os.path.join(base_path, d))]
+    except FileNotFoundError:
+        # Handle the case where the directory doesn't exist
+        return None
+
+    # Filter and sort directories by iteration number
+    iteration_dirs = sorted(
+        (d for d in dirs if re.match(r'iteration_\d+', d)),
+        key=lambda x: int(x.split('_')[1]),
+        reverse=True
+    )
+
+    # Return the first directory (highest iteration) or None if no directories found
+    return iteration_dirs[0] if iteration_dirs else None
+
+def clean_data_folder(data_folder='data'):
+    input_folder = os.path.join(data_folder, 'input')
+
+    for item in os.listdir(data_folder):
+        item_path = os.path.join(data_folder, item)
+        if os.path.isdir(item_path):
+            if item == 'input':
+                # Empty the contents of the input folder
+                for file in os.listdir(input_folder):
+                    file_path = os.path.join(input_folder, file)
+                    if os.path.isfile(file_path) or os.path.islink(file_path):
+                        os.unlink(file_path)
+                    elif os.path.isdir(file_path):
+                        shutil.rmtree(file_path)
+            else:
+                # Remove other directories in data folder
+                shutil.rmtree(item_path)
+        elif os.path.isfile(item_path) or os.path.islink(item_path):
+            # Remove files in data folder
+            os.unlink(item_path)
+
+@views.route ('/clean-data', methods=['GET'])
+def clean_data():
+    try:
+        clean_data_folder()
+        return "Data folder cleaned successfully", 200
+    except Exception as e:
+        # Log the error and return an error response
+        print(f"Error cleaning data folder: {e}")
+        return "Error cleaning data folder", 500
+    
+
 @views.route('/splat')
-def splatting():
-    return render_template('splat.html')
+def splat_viewer():
+    ply_file_url = url_for('views.latest_output_file')
+    return render_template('splat.html', ply_file_url=ply_file_url)
+
+
+@views.route('/output/point_cloud/latest/point_cloud.ply')
+def latest_output_file():
+    latest_iteration_dir = get_latest_iteration_folder()
+    if latest_iteration_dir is None:
+        # Handle the case where no iteration directories are found
+        return "No iteration directories found", 404
+
+    file_path = os.path.join('data/output/point_cloud', latest_iteration_dir, 'point_cloud.ply')
+    if not os.path.exists(file_path):
+        # Handle the case where the file doesn't exist
+        return "File not found", 404
+
+    return send_from_directory(os.path.join('data/output/point_cloud', latest_iteration_dir), 'point_cloud.ply')
+
 
 @views.route('/download')
 def download_zip():

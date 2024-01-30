@@ -50,8 +50,6 @@ button {
     margin: 5px; 
     border-radius: 5px;
     border: 1px solid #ddd;
-
-    
 }
 
 input[type='submit'] {
@@ -70,4 +68,27 @@ label {
     margin-top: 10px;
     display: block;
     font-weight: bold;
+}
+
+/* Update the background-color to red */
+#cleanupButton {
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 10px 20px; /* Adjust padding as needed */
+    border-radius: 5px;
+    margin: 5px;
+}
+
+/* Hover effect */
+#cleanupButton:hover {
+    background-color: darkred; /* Change the hover color if needed */
+}
+
+/* Center the button */
+.button-container {
+    text-align: center;
+    margin-top: 20px; /* Adjust margin as needed */
 }

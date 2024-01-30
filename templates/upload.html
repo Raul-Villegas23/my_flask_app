@@ -8,7 +8,9 @@
         <!-- Button to go to the upload page -->
         <div class="link-container">
             <a href="/" class="button">Go to Home Page</a>
+            <a href="/splat" class="button">Go to Splat Viewer</a>
         </div>
+    
         <form method="post" enctype="multipart/form-data">
             
             <label for="file">Video File</label>
@@ -24,6 +26,8 @@
             <input type="text" id="iterations_2" name="iterations_2" required>    
 
             <input type="submit" value="Upload">
+            <button id="cleanupButton">Clean Data Folder</button>
         </form>
+        <script src="{{ url_for('static', filename='cleanup.js') }}"></script>
 </body>
 
