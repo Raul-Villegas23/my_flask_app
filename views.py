@@ -10,7 +10,7 @@ import zipfile
 
 views = Blueprint(__name__, 'views')
 
-UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER', 'C:/Users/raul_/Docker_tutorials/my_flask_app/data')
+UPLOAD_FOLDER = os.path.join(os.getcwd(), 'data')
 ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov', 'wmv'}
 OUTPUT_ZIP_FILE = 'output.zip' # Name of the output zip file
 
