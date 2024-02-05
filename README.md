@@ -21,7 +21,7 @@ Docker
 ```shell
 docker pull airstudio/gaussian-splatting
 ```
-Docker + Nvidia toolkit
+Docker + Nvidia toolkit (follow the instructions)
 ```shell
 https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
 ```
