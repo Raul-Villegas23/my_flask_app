@@ -5,13 +5,18 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
     </head>
     <body>
+        <script>
+            // Check local storage for dark mode state and apply it
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            document.body.classList.toggle('dark-theme', isDarkMode);
+        </script>
         <div class="dark-mode-toggle-container">
-            <button class="dark-mode-toggle" onclick="toggleDarkTheme()">
-                <i class="fas fa-sun"></i> <!-- Sun icon for light mode -->
-                <i class="fas fa-moon"></i> <!-- Moon icon for dark mode -->
-            </button>  
+            <!-- Dark Mode Toggle Button with initial sun icon -->
+            <button id="darkModeToggle" class="dark-mode-toggle" onclick="toggleDarkMode()">
+                <i id="darkModeIcon" class="fas fa-sun"></i> <!-- Sun icon for light mode -->
+            </button>
         </div>
-        <h1>3-D Gaussian Splatting</h1> 
+        <h1>3D Gaussian Splatting</h1> 
         <script src="{{ url_for('static', filename='dark-mode.js') }}"></script>
 
         <!-- Button to go to the upload page -->
