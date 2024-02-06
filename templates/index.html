@@ -2,15 +2,25 @@
     <head>
         <title>Home</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
     </head>
     <body>
-        <h1>3-D Gaussian Splatting</h1>
+        <div class="dark-mode-toggle-container">
+            <button class="dark-mode-toggle" onclick="toggleDarkTheme()">
+                <i class="fas fa-sun"></i> <!-- Sun icon for light mode -->
+                <i class="fas fa-moon"></i> <!-- Moon icon for dark mode -->
+            </button>  
+        </div>
+        <h1>3-D Gaussian Splatting</h1> 
+        <script src="{{ url_for('static', filename='dark-mode.js') }}"></script>
+
         <!-- Button to go to the upload page -->
         <div class="link-container">
-            <a href="/upload" class="button">Go to Upload Page</a>
-            <a href="/splat" class="button">Go to Splat Viewer</a>
+            <a href="/upload" class="button">Upload Page</a>
+            <a href="/splat" class="button">Splat Viewer</a>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/three@0.141.0/build/three.min.js"></script>
         <div id="threejs-container"></div>
         <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>
+       
     </body>       

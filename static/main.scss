@@ -1,49 +1,49 @@
 // main.scss
-
+@import 'colors';
+@import 'dark-theme';
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: $first-color;
     padding: 20px;
 }
 
-
 h1 {
-    color: #333;
+    color: $fourth-color;
     text-align: center;
 }
 
 a {
-    color: #0957a9;
+    color: $third-color;
     text-decoration: none;
-    margin: 0 5px;
     font-weight: bold;
+    margin: 0 5px;
+    margin-top: 10px;
     margin-bottom: 10px;
-}
-a:hover {
-    text-decoration: underline;
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
 .link-container {
     display: flex;
-    justify-content: center; /* Align items horizontally to the center */
-    align-items: center; /* Align items vertically to the center */
-    flex-wrap: wrap; /* Allow items to wrap */
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 form {
     max-width: 400px;
     margin: 0 auto;
     padding: 15px;
-    background-color: white;
+    background-color: $second-color;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease; 
-}
-form:hover {
-    transform: scale(1.01);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    &:hover {
+        transform: scale(1.01);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
 }
 
 input[type='file'],
@@ -51,59 +51,97 @@ input[type='text'],
 input[type='submit'],
 button {
     width: 100%;
-    display: inline-block; /* Or block, depending on your design */
-    padding: 10px 20px; /* Vertical and horizontal padding */
-    margin: 5px; 
+    padding: 10px 20px;
+    margin: 5px 0; // Updated for consistency
     border-radius: 5px;
     border: 1px solid #ddd;
 }
 
 input[type='submit'] {
-    background-color: #007bff;
-    color: white;
+    background-color: $third-color;
+    color: $first-color;
     border: none;
     cursor: pointer;
     font-weight: bold;
-}
-
-input[type='submit']:hover {
-    background-color: #0056b3;
+    &:hover {
+        background-color: darken($third-color, 10%);
+    }
 }
 
 label {
-    margin-top: 10px;
     display: block;
+    margin-top: 10px;
     font-weight: bold;
 }
 
 input[type='file'] {
     padding: 10px 0;
-    margin: 0;
     border: none;
-}
-input[type='file']:focus {
-    outline: none;
+    &:focus {
+        outline: none;
+    }
 }
 
-/* Update the background-color to red */
 #cleanupButton {
-    background-color: red;
+    background-color: $sixth-color;
     color: white;
     border: none;
     cursor: pointer;
     font-weight: bold;
-    padding: 10px 20px; /* Adjust padding as needed */
+    padding: 10px 20px;
     border-radius: 5px;
     margin: 5px;
+    &:hover {
+        background-color: darken($sixth-color, 10%);
+    }
 }
 
-/* Hover effect */
-#cleanupButton:hover {
-    background-color: darkred; /* Change the hover color if needed */
-}
-
-/* Center the button */
 .button-container {
     text-align: center;
-    margin-top: 20px; /* Adjust margin as needed */
+    margin-top: 20px;
+}
+
+/* Styles for Dark Mode Toggle Button Container */
+.dark-mode-toggle-container {
+    display: flex; /* Use flexbox layout */
+    justify-content: flex-end; /* Align the button to the right */
+    align-items: center; /* Align items vertically to the center */
+}
+
+/* Styles for Dark Mode Toggle Button */
+.dark-mode-toggle {
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0;
+    margin: 5px;
+    width: auto;
+    margin-left: auto;
+
+
+    /* Light Mode Styles */
+    background-color: transparent; /* Background color for light mode */
+    color: $third-color; /* Text color for light mode */
+    border: none;
+
+    /* Hover effect for light mode */
+    &:hover {
+        color: darken($third-color, 10%); /* Darken the color by 10% on hover in light mode */
+    }
+
+    /* Dark Mode Styles */
+    &.dark-theme {
+        background-color: transparent; /* Background color for dark mode */
+        color: $dark-third-color; /* Text color for dark mode */
+
+        /* Hover effect for dark mode */
+        &:hover {
+            color: darken($dark-second-color, 10%); /* Darken the color by 10% on hover in dark mode */
+        }
+    }
+
+    /* Styles for Font Awesome icons */
+    i {
+        font-size: 24px; /* Adjust the icon size */
+        margin-right: 5px; /* Add some spacing between the icon and text */
+    }
 }

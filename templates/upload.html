@@ -2,13 +2,20 @@
 <head>
     <title>Upload Video</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
 </head>
 <body>
+    <div class="dark-mode-toggle-container">
+        <button class="dark-mode-toggle" onclick="toggleDarkTheme()">
+            <i class="fas fa-sun"></i> <!-- Sun icon for light mode -->
+            <i class="fas fa-moon"></i> <!-- Moon icon for dark mode -->
+        </button>  
+    </div>
     <h1>3D Gaussian Splatting Video Processing</h1>
         <!-- Button to go to the upload page -->
         <div class="link-container">
-            <a href="/" class="button">Go to Home Page</a>
-            <a href="/splat" class="button">Go to Splat Viewer</a>
+            <a href="/" class="button">Home Page</a>
+            <a href="/splat" class="button">Splat Viewer</a>
         </div>
     
         <form method="post" enctype="multipart/form-data">
@@ -26,8 +33,12 @@
             <input type="text" id="iterations_2" name="iterations_2" placeholder="30000" required>    
 
             <input type="submit" value="Upload">
-            <button id="cleanupButton">Clean Data</button>
+            <!-- Replace the Delete button with a trash can icon -->
+            <button id="cleanupButton" onclick="deleteData()">
+                <i class="fas fa-trash-alt"></i> <!-- Trash can icon -->
+            </button>
         </form>
         <script src="{{ url_for('static', filename='cleanup.js') }}"></script>
+        <script src="{{ url_for('static', filename='dark-mode.js') }}"></script>
 </body>
 

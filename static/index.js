@@ -8,7 +8,7 @@ renderer.setClearColor(0xFFFFFF, 0);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('threejs-container').appendChild(renderer.domElement);
 
-const numberOfSpheres = 20;
+const numberOfSpheres = 30;
 const spheres = [];
 const boundary = 10; // Define the boundary for the movement of the spheres
 

@@ -11,7 +11,7 @@ import zipfile
 views = Blueprint(__name__, 'views')
 
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'data')
-ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov', 'wmv'}
+ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov', 'wmv', 'crdownload', 'webm', 'flv', 'mkv'}
 OUTPUT_ZIP_FILE = 'output.zip' # Name of the output zip file
 
 def allowed_file(filename):
@@ -28,6 +28,7 @@ def zip_output_folder(output_folder_path, zip_file_path):
 def home():
     return render_template('index.html')
 
+# This function will return the latest iteration folder from the output/point_cloud directory
 def get_latest_iteration_folder(base_path='data/output/point_cloud'):
     # List all directories in the base_path
     try:
@@ -42,7 +43,6 @@ def get_latest_iteration_folder(base_path='data/output/point_cloud'):
         key=lambda x: int(x.split('_')[1]),
         reverse=True
     )
-
     # Return the first directory (highest iteration) or None if no directories found
     return iteration_dirs[0] if iteration_dirs else None
 
@@ -67,6 +67,7 @@ def clean_data_folder(data_folder='data'):
             # Remove files in data folder
             os.unlink(item_path)
 
+# This route will clean the data folder by removing all files and directories except the input folder
 @views.route ('/clean-data', methods=['GET'])
 def clean_data():
     try:
@@ -77,13 +78,13 @@ def clean_data():
         print(f"Error cleaning data folder: {e}")
         return "Error cleaning data folder", 500
     
-
+# This route will serve the splat viewer page with the latest point cloud file
 @views.route('/splat')
 def splat_viewer():
     ply_file_url = url_for('views.latest_output_file')
     return render_template('splat.html', ply_file_url=ply_file_url)
 
-
+# This route will serve the latest point cloud file from the output folder 
 @views.route('/output/point_cloud/latest/point_cloud.ply')
 def latest_output_file():
     latest_iteration_dir = get_latest_iteration_folder()
@@ -98,7 +99,7 @@ def latest_output_file():
 
     return send_from_directory(os.path.join('data/output/point_cloud', latest_iteration_dir), 'point_cloud.ply')
 
-
+#This route will download the output zip file from the data folder
 @views.route('/download')
 def download_zip():
     zip_file_path = os.path.join(UPLOAD_FOLDER, OUTPUT_ZIP_FILE)  # Path for the zip file
@@ -107,7 +108,7 @@ def download_zip():
     return send_file(zip_file_path, as_attachment=True, download_name='output.zip')
 
 
-# Add the upload route below
+# This route will handle the file upload and video processing 
 @views.route('/upload', methods=['GET', 'POST'])
 def upload_video():
     if request.method == 'POST':
@@ -134,7 +135,7 @@ def upload_video():
 
     return render_template('upload.html')
 
-# Add the process_video function below 
+# This function will process the video using FFmpeg and Gaussian Splatting docker container
 def process_video(filepath, fps):
     # Modify the FFmpeg command to save images in the "input" folder
     iterations_1 = request.form.get('iterations_1')
@@ -146,7 +147,7 @@ def process_video(filepath, fps):
         os.path.join(UPLOAD_FOLDER, "input/%04d.jpg")
     ]
 
-    # Docker command for Gaussian Splatting
+    # Docker commands for Gaussian Splatting
     gaussian_splatting_command_convert = [
         "docker", "run", "--rm", "--gpus", "all", "-it",
         "-v", f"{UPLOAD_FOLDER}:/workspace",

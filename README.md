@@ -31,6 +31,11 @@ Before starting to use your Flask Application you must have Docker running and t
 ```shell
 docker images
 ```
+```shell
+REPOSITORY                     TAG       IMAGE ID       CREATED        SIZE
+airstudio/gaussian-splatting   latest    dd4c30b1ffd6   4 months ago   21.5GB
+```
+
 # Running the app
 
 Once Docker is running and the gaussian splat image is available. You can run the app with the following command.
@@ -38,7 +43,7 @@ Make sure you're in the project directory when you do so:
  ```shell
  python app.py
  ```
- The host port is defined inside thea app.py file (5001)
+ The host port is defined inside the app.py file (5001)
  ```python
  if __name__ == '__main__':
     app.run(debug=True, port=5001)

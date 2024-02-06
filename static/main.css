@@ -1,43 +1,86 @@
+/* Dark Mode Styles for Body */
+body.dark-theme {
+  background-color: #152744;
+  color: #fbf9fa;
+}
+
+/* Dark Mode Styles for H1 and Links */
+body.dark-theme h1 {
+  color: #9dfdc7;
+}
+
+body.dark-theme a {
+  color: #61d2b4;
+}
+body.dark-theme a:hover {
+  text-decoration: underline;
+}
+
+/* Dark Mode Styles for Form */
+body.dark-theme form {
+  background-color: #367591;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-theme form:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Dark Mode Styles for Inputs and Buttons */
+body.dark-theme input[type=file],
+body.dark-theme input[type=text],
+body.dark-theme input[type=submit],
+body.dark-theme button {
+  border: none;
+}
+
+body.dark-theme input[type=submit] {
+  background-color: #61d2b4;
+}
+
+body.dark-theme input[type=submit]:hover {
+  background-color: #39c7a1;
+}
+
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  background-color: #f6f6f6;
   padding: 20px;
 }
 
 h1 {
-  color: #333;
+  color: #163172;
   text-align: center;
 }
 
 a {
-  color: #0957a9;
+  color: #1e56a0;
   text-decoration: none;
-  margin: 0 5px;
   font-weight: bold;
+  margin: 0 5px;
+  margin-top: 10px;
   margin-bottom: 10px;
 }
-
 a:hover {
   text-decoration: underline;
 }
 
 .link-container {
   display: flex;
-  justify-content: center; /* Align items horizontally to the center */
-  align-items: center; /* Align items vertically to the center */
-  flex-wrap: wrap; /* Allow items to wrap */
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 form {
   max-width: 400px;
   margin: 0 auto;
   padding: 15px;
-  background-color: white;
+  background-color: #d6e4f0;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 form:hover {
   transform: scale(1.01);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
@@ -48,60 +91,91 @@ input[type=text],
 input[type=submit],
 button {
   width: 100%;
-  display: inline-block; /* Or block, depending on your design */
-  padding: 10px 20px; /* Vertical and horizontal padding */
-  margin: 5px;
+  padding: 10px 20px;
+  margin: 5px 0;
   border-radius: 5px;
   border: 1px solid #ddd;
 }
 
 input[type=submit] {
-  background-color: #007bff;
-  color: white;
+  background-color: #1e56a0;
+  color: #f6f6f6;
   border: none;
   cursor: pointer;
   font-weight: bold;
 }
-
 input[type=submit]:hover {
-  background-color: #0056b3;
+  background-color: #163f75;
 }
 
 label {
-  margin-top: 10px;
   display: block;
+  margin-top: 10px;
   font-weight: bold;
 }
 
 input[type=file] {
   padding: 10px 0;
-  margin: 0;
   border: none;
 }
-
 input[type=file]:focus {
   outline: none;
 }
 
-/* Update the background-color to red */
 #cleanupButton {
-  background-color: red;
+  background-color: #fd0054;
   color: white;
   border: none;
   cursor: pointer;
   font-weight: bold;
-  padding: 10px 20px; /* Adjust padding as needed */
+  padding: 10px 20px;
   border-radius: 5px;
   margin: 5px;
 }
-
-/* Hover effect */
 #cleanupButton:hover {
-  background-color: darkred; /* Change the hover color if needed */
+  background-color: #ca0043;
 }
 
-/* Center the button */
 .button-container {
   text-align: center;
-  margin-top: 20px; /* Adjust margin as needed */
+  margin-top: 20px;
+}
+
+/* Styles for Dark Mode Toggle Button Container */
+.dark-mode-toggle-container {
+  display: flex; /* Use flexbox layout */
+  justify-content: flex-end; /* Align the button to the right */
+  align-items: center; /* Align items vertically to the center */
+}
+
+/* Styles for Dark Mode Toggle Button */
+.dark-mode-toggle {
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0;
+  margin: 5px;
+  width: auto;
+  margin-left: auto;
+  /* Light Mode Styles */
+  background-color: transparent; /* Background color for light mode */
+  color: #1e56a0; /* Text color for light mode */
+  border: none;
+  /* Hover effect for light mode */
+  /* Dark Mode Styles */
+  /* Styles for Font Awesome icons */
+}
+.dark-mode-toggle:hover {
+  color: #163f75; /* Darken the color by 10% on hover in light mode */
+}
+.dark-mode-toggle.dark-theme {
+  background-color: transparent; /* Background color for dark mode */
+  color: #61d2b4; /* Text color for dark mode */
+  /* Hover effect for dark mode */
+}
+.dark-mode-toggle.dark-theme:hover {
+  color: #28576c; /* Darken the color by 10% on hover in dark mode */
+}
+.dark-mode-toggle i {
+  font-size: 24px; /* Adjust the icon size */
+  margin-right: 5px; /* Add some spacing between the icon and text */
 }/*# sourceMappingURL=main.css.map */

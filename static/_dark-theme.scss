@@ -1,0 +1,46 @@
+@import 'colors';
+// Dark theme styles
+/* Dark Mode Styles for Body */
+body.dark-theme {
+  background-color: $dark-first-color;
+  color: $fifth-color;
+}
+
+/* Dark Mode Styles for H1 and Links */
+body.dark-theme h1 {
+  color: $dark-fourth-color;
+}
+
+body.dark-theme a {
+  color: $dark-third-color;
+  &:hover {
+      text-decoration: underline;
+  }
+}
+
+/* Dark Mode Styles for Form */
+body.dark-theme form {
+  background-color: $dark-second-color;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-theme form:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Dark Mode Styles for Inputs and Buttons */
+body.dark-theme input[type='file'],
+body.dark-theme input[type='text'],
+body.dark-theme input[type='submit'],
+body.dark-theme button {
+  border: none;
+}
+
+body.dark-theme input[type='submit'] {
+  background-color: $dark-third-color;
+}
+
+body.dark-theme input[type='submit']:hover {
+  background-color: darken($dark-third-color, 10%);
+}
+
