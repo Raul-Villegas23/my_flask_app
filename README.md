@@ -1,7 +1,7 @@
 
 # Gaussian Splats: UI + Viewer
 
-This project is inspired of Inria's original work for 3D Gaussian Splatting and Antimatter Splat viewer. This python Flask application uses both works to create a User Interface (UI) where users can experiment and train their splat models. This project also makes use of Airstudio's docker image (airstudio/gaussian-splatting) for accessing the original repository without having intall and set up all the required dependencies.
+This project is inspired of Inria's original work for 3D Gaussian Splatting and Antimatter Splat viewer. This python Flask application uses both works to create a User Interface (UI) where users can experiment and train their splat models. This project also makes use of Airstudio's docker image (airstudio/gaussian-splatting) for accessing the original repository without having to install and set up all the required dependencies (conda environment).
 
 The main advantage of this method is that it requires almost none programming experience and can be used for small and large scale models. The steps are the following:
 
@@ -65,6 +65,7 @@ Before starting to use your Flask Application you must have Docker running and t
 ```shell
 docker images
 ```
+This should appear on your terminal:
 ```shell
 REPOSITORY                     TAG       IMAGE ID       CREATED        SIZE
 airstudio/gaussian-splatting   latest    dd4c30b1ffd6   4 months ago   21.5GB
