@@ -39,6 +39,7 @@ Docker + Nvidia toolkit (follow the instructions). You might need to install the
 https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
 ```
 # Folder structure
+```arduino
 .
 └── MY_FLASK_APP/
     ├── data/
@@ -57,6 +58,7 @@ https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install
     ├── Dockerfile
     ├── requirements.txt
     └── README.md
+```
     
 # Usage
 Before starting to use your Flask Application you must have Docker running and the gaussian splat image available. You can verify this by running:
