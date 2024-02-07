@@ -3,7 +3,7 @@
 @import 'dark-theme';
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     background-color: $first-color;
     padding: 20px;
 }
@@ -81,20 +81,52 @@ input[type='file'] {
         outline: none;
     }
 }
+.file-label {
+    display: inline-block;
+    position: relative;
+    padding-left: 30px; // Adjust icon position
+    cursor: pointer;
+    margin-bottom: 10px;
+}
 
-#cleanupButton {
-    background-color: $sixth-color;
+.file-input {
+    display: none;
+}
+
+.fa-upload {
+    position: absolute;
+    left: 5px; // Adjust icon position
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.cleanupButton {
+    background-color: $fifth-color;
     color: white;
     border: none;
     cursor: pointer;
     font-weight: bold;
     padding: 10px 20px;
     border-radius: 5px;
-    margin: 5px;
     &:hover {
-        background-color: darken($sixth-color, 10%);
+        background-color: darken($fifth-color, 10%);
     }
 }
+.upload-button {
+    background-color: $third-color;
+    color: $first-color;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 10px 20px; /* Adjust padding as needed */
+    border-radius: 5px;
+    transition: background-color 0.3s ease; /* Add transition effect */
+}
+
+.upload-button:hover {
+    background-color: darken($third-color, 10%);
+}
+
 
 .button-container {
     text-align: center;

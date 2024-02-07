@@ -3,7 +3,7 @@
 /* Dark Mode Styles for Body */
 body.dark-theme {
   background-color: $dark-first-color;
-  color: $fifth-color;
+  color: $first-color;
 }
 
 /* Dark Mode Styles for H1 and Links */
@@ -38,9 +38,25 @@ body.dark-theme button {
 
 body.dark-theme input[type='submit'] {
   background-color: $dark-third-color;
+  color: $first-color;
 }
 
 body.dark-theme input[type='submit']:hover {
   background-color: darken($dark-third-color, 10%);
 }
+body.dark-theme .upload-button {
+  background-color: $dark-fourth-color;
+  color: $dark-first-color;
+}
 
+body.dark-theme .upload-button:hover {
+  background-color: darken($dark-fourth-color, 10%);
+}
+
+body.dark-theme .cleanupButton {
+  color: $dark-first-color;
+}
+
+body.dark-theme .cleanupButton:hover {
+  color: darken($dark-first-color, 10%);
+}

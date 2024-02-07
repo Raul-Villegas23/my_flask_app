@@ -26,23 +26,36 @@
     
         <form method="post" enctype="multipart/form-data">
             
-            <label for="file">Video File</label>
-            <input type="file" id="file" name="file">
-
             <label for="fps">Frames per Second (FPS)</label>
             <input type="text" id="fps" name="fps" value="2" >
 
-            <label for="iterations_1">Training iterations of the first Gaussian model</label>
+            <label for="iterations_1">#1 Iterations</label>
             <input type="text" id="iterations_1" name="iterations_1" placeholder="7000" required>
             
-            <label for="iterations_2">Training iterations of the second Gaussian model</label>
-            <input type="text" id="iterations_2" name="iterations_2" placeholder="30000" required>    
+            <label for="iterations_2">#2 Iterations</label>
+            <input type="text" id="iterations_2" name="iterations_2" placeholder="30000" required>
 
-            <input type="submit" value="Upload">
+            <label for="file" class="file-label">
+                <i class="fas fa-upload"></i> <!-- Upload icon -->
+                <span id="file-label-text">Choose a file</span>
+            </label>
+            <input type="file" id="file" name="file" class="file-input" onchange="displayFileName(this)">
+            
+            <script>
+                function displayFileName(input) {
+                    const fileName = input.files[0].name;
+                    document.getElementById('file-label-text').textContent = fileName;
+                }
+            </script>
+            <input type="file" id="file" name="file" class="file-input">
+            <button class="upload-button">
+                <i class="fas fa-cloud-upload-alt"></i> <!-- Upload icon -->
+            </button>
             <!-- Replace the Delete button with a trash can icon -->
-            <button id="cleanupButton">
+            <button class="cleanupButton" id="cleanupButton">
                 <i class="fas fa-trash-alt"></i> <!-- Trash can icon -->
             </button>
+            
         </form>
         <script src="{{ url_for('static', filename='cleanup.js') }}"></script>
         <script src="{{ url_for('static', filename='dark-mode.js') }}"></script>

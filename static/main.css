@@ -1,7 +1,7 @@
 /* Dark Mode Styles for Body */
 body.dark-theme {
   background-color: #152744;
-  color: #fbf9fa;
+  color: #F1FAEE;
 }
 
 /* Dark Mode Styles for H1 and Links */
@@ -36,25 +36,43 @@ body.dark-theme button {
 
 body.dark-theme input[type=submit] {
   background-color: #61d2b4;
+  color: #F1FAEE;
 }
 
 body.dark-theme input[type=submit]:hover {
   background-color: #39c7a1;
 }
 
+body.dark-theme .upload-button {
+  background-color: #9dfdc7;
+  color: #152744;
+}
+
+body.dark-theme .upload-button:hover {
+  background-color: #6bfcaa;
+}
+
+body.dark-theme .cleanupButton {
+  color: #152744;
+}
+
+body.dark-theme .cleanupButton:hover {
+  color: #09111d;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f6f6f6;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  background-color: #F1FAEE;
   padding: 20px;
 }
 
 h1 {
-  color: #163172;
+  color: #1D3557;
   text-align: center;
 }
 
 a {
-  color: #1e56a0;
+  color: #457B9D;
   text-decoration: none;
   font-weight: bold;
   margin: 0 5px;
@@ -76,7 +94,7 @@ form {
   max-width: 400px;
   margin: 0 auto;
   padding: 15px;
-  background-color: #d6e4f0;
+  background-color: #A8DADC;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -98,14 +116,14 @@ button {
 }
 
 input[type=submit] {
-  background-color: #1e56a0;
-  color: #f6f6f6;
+  background-color: #457B9D;
+  color: #F1FAEE;
   border: none;
   cursor: pointer;
   font-weight: bold;
 }
 input[type=submit]:hover {
-  background-color: #163f75;
+  background-color: #355f7a;
 }
 
 label {
@@ -122,18 +140,51 @@ input[type=file]:focus {
   outline: none;
 }
 
-#cleanupButton {
-  background-color: #fd0054;
+.file-label {
+  display: inline-block;
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.file-input {
+  display: none;
+}
+
+.fa-upload {
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.cleanupButton {
+  background-color: #E63946;
   color: white;
   border: none;
   cursor: pointer;
   font-weight: bold;
   padding: 10px 20px;
   border-radius: 5px;
-  margin: 5px;
 }
-#cleanupButton:hover {
-  background-color: #ca0043;
+.cleanupButton:hover {
+  background-color: #d21a28;
+}
+
+.upload-button {
+  background-color: #457B9D;
+  color: #F1FAEE;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 10px 20px; /* Adjust padding as needed */
+  border-radius: 5px;
+  transition: background-color 0.3s ease; /* Add transition effect */
+}
+
+.upload-button:hover {
+  background-color: #355f7a;
 }
 
 .button-container {
@@ -158,14 +209,14 @@ input[type=file]:focus {
   margin-left: auto;
   /* Light Mode Styles */
   background-color: transparent; /* Background color for light mode */
-  color: #1e56a0; /* Text color for light mode */
+  color: #457B9D; /* Text color for light mode */
   border: none;
   /* Hover effect for light mode */
   /* Dark Mode Styles */
   /* Styles for Font Awesome icons */
 }
 .dark-mode-toggle:hover {
-  color: #163f75; /* Darken the color by 10% on hover in light mode */
+  color: #355f7a; /* Darken the color by 10% on hover in light mode */
 }
 .dark-mode-toggle.dark-theme {
   background-color: transparent; /* Background color for dark mode */
