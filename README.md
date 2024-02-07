@@ -60,8 +60,7 @@ https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install
     ├── requirements.txt
     └── README.md
 ```
-    
-# Usage
+# Running the app
 Before starting to use your Flask Application you must have Docker running and the gaussian splat image available. You can verify this by running:
 ```shell
 docker images
@@ -71,9 +70,6 @@ This should appear on your terminal:
 REPOSITORY                     TAG       IMAGE ID       CREATED        SIZE
 airstudio/gaussian-splatting   latest    dd4c30b1ffd6   4 months ago   21.5GB
 ```
-
-# Running the app
-
 Once Docker is running and the gaussian splat image is available. You can run the app with the following command.
 Make sure you're in the project directory when you do so:
  ```shell
@@ -87,7 +83,8 @@ Make sure you're in the project directory when you do so:
 # Using the app
 To create your splat models you need to access to the "Upload" section. Once there it will ask you to submit a video file for it to be processed. 
 It also needs a FPS (frames per second) value for it to prepared your images. Depending on the number you choose and the length of your video, an input file 
-will be created using FFMPEG subcommands.
+will be created using FFMPEG subcommands. For better results, choose a number that will output between 100 and 200 images in your input folder once converted with ffmpeg.
+Lets say your vide's length is 00m:50s, a value of 2 FPS will get you 100 images [Video_length(in seconds)x FPS = #Number of images].
 
 Once the fps value is established, you need to determine the number of iterations you would like to use to train your splat models. The greater they are the better quality of the results, but
 it also means that it will take longer to train. The Flask app will create the two models and create a download zip folder so the user can save their splat models and use them outside the app.

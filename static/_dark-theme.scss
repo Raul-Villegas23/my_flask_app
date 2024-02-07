@@ -60,3 +60,6 @@ body.dark-theme .cleanupButton {
 body.dark-theme .cleanupButton:hover {
   color: darken($dark-first-color, 10%);
 }
+body.dark-theme .loading-spinner {
+  background: $dark-fourth-color;
+}

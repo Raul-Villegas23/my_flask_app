@@ -1,22 +1,45 @@
-
 <head>
     <title>Upload Video</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
 </head>
 <body>
+    <!-- Toggle dark-mode.js and loading spinner scripts -->
     <script>
         // Check local storage for dark mode state and apply it
         const isDarkMode = localStorage.getItem('darkMode') === 'true';
         document.body.classList.toggle('dark-theme', isDarkMode);
-    </script>
     
+        // Check sessionStorage for the loading spinner visibility state
+        const isSpinnerVisible = sessionStorage.getItem('loadingSpinnerVisible') === 'true';
+        if (isSpinnerVisible) {
+            document.getElementById('loadingSpinner').style.display = 'block';
+        }
+    
+        // Function to show the loading spinner
+        function showLoadingSpinner() {
+            // Set sessionStorage flag to indicate loading spinner visibility
+            sessionStorage.setItem('loadingSpinnerVisible', 'true');
+            document.getElementById('loadingSpinner').style.display = 'block';
+        }
+    
+        // Function to keep the loading spinner visible during processing
+        function keepLoadingSpinnerVisible() {
+            const isSpinnerVisible = sessionStorage.getItem('loadingSpinnerVisible') === 'true';
+            if (isSpinnerVisible) {
+                document.getElementById('loadingSpinner').style.display = 'block';
+            }
+        }
+    </script>
+    <!-- Dark Mode Toggle Button -->
     <div class="dark-mode-toggle-container">
         <!-- Dark Mode Toggle Button with initial sun icon -->
         <button id="darkModeToggle" class="dark-mode-toggle" onclick="toggleDarkMode()">
             <i id="darkModeIcon" class="fas fa-sun"></i> <!-- Sun icon for light mode -->
         </button>
     </div>
+
+    <!-- Upload form -->
     <h1>Gaussian Splatting Processing Panel</h1>
         <!-- Button to go to the upload page -->
         <div class="link-container">
@@ -24,7 +47,7 @@
             <a href="/splat" class="button">Splat Viewer</a>
         </div>
     
-        <form method="post" enctype="multipart/form-data">
+        <form id="upload-form" method="post" enctype="multipart/form-data">
             
             <label for="fps">Frames per Second (FPS)</label>
             <input type="text" id="fps" name="fps" value="2" >
@@ -37,8 +60,10 @@
 
             <label for="file" class="file-label">
                 <i class="fas fa-upload"></i> <!-- Upload icon -->
-                <span id="file-label-text">Choose a file</span>
+                <span id="file-label-text">Choose a file </span>
+                <div id="loadingSpinner" class="loading-spinner"></div>
             </label>
+            
             <input type="file" id="file" name="file" class="file-input" onchange="displayFileName(this)">
             
             <script>
@@ -47,17 +72,17 @@
                     document.getElementById('file-label-text').textContent = fileName;
                 }
             </script>
-            <input type="file" id="file" name="file" class="file-input">
-            <button class="upload-button">
+            
+            <button class="upload-button" onclick="showLoadingSpinner()">
                 <i class="fas fa-cloud-upload-alt"></i> <!-- Upload icon -->
             </button>
+            
             <!-- Replace the Delete button with a trash can icon -->
             <button class="cleanupButton" id="cleanupButton">
                 <i class="fas fa-trash-alt"></i> <!-- Trash can icon -->
             </button>
-            
         </form>
+        <!-- Add the cleanup.js and dark-mode.js scripts -->
         <script src="{{ url_for('static', filename='cleanup.js') }}"></script>
         <script src="{{ url_for('static', filename='dark-mode.js') }}"></script>
 </body>
-

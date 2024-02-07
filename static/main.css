@@ -60,6 +60,10 @@ body.dark-theme .cleanupButton:hover {
   color: #09111d;
 }
 
+body.dark-theme .loading-spinner {
+  background: #9dfdc7;
+}
+
 body {
   font-family: "Plus Jakarta Sans", sans-serif;
   background-color: #F1FAEE;
@@ -229,4 +233,35 @@ input[type=file]:focus {
 .dark-mode-toggle i {
   font-size: 24px; /* Adjust the icon size */
   margin-right: 5px; /* Add some spacing between the icon and text */
+}
+
+.loading-spinner {
+  position: absolute;
+  top: calc(50% - 10px); /* Position it in the middle vertically (10px is half the size of the spinner) */
+  left: calc(100% + 10px); /* Position it just to the right of the "Choose file" label with a 10px gap */
+  transform: translate(-50%, -50%);
+  padding: 15px;
+  background: #1D3557;
+  z-index: 99999;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  --_m:
+      conic-gradient(#0000,#000),
+      linear-gradient(#000 0 0) content-box;
+  -webkit-mask: var(--_m);
+  mask: var(--_m);
+  -webkit-mask-composite: source-out;
+  mask-composite: subtract;
+  box-sizing: border-box;
+  animation: spin 1s linear infinite;
+  display: none;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }/*# sourceMappingURL=main.css.map */
