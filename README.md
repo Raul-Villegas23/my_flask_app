@@ -3,29 +3,61 @@
 
 This project is inspired of Inria's original work for 3D Gaussian Splatting and Antimatter Splat viewer. This python Flask application uses both works to create a User Interface (UI) where users can experiment and train their splat models. This project also makes use of Airstudio's docker image (airstudio/gaussian-splatting) for accessing the original repository without having intall and set up all the required dependencies.
 
-The main advantage of this methods is that it requires almost none programming experience to use. The steps are the following:
+The main advantage of this method is that it requires almost none programming experience and can be used for small and large scale models. The steps are the following:
 
 # Pre-requisites
-Python and Docker installed. Creating a virtual environment (venv) to handle all dependencies within the project.
+Python and Docker installed. Creating a virtual environment (venv) to handle all dependencies within the project. 
 
 # Installation
 Clone the repository
 ```shell
 git clone https://github.com/Raul-Villegas23/my_flask_app.git
 ```
+
+Create a folder called 'data' within the project directory and
+a folder named 'input' inside of it. Afterwards return to the project directory.
+```shell
+cd my_flask_app 
+mkdir data
+cd data
+mkdir input
+cd ..
+```
+
 Install requirements: Flask, Flask-cors, ffmpeg...
 ```shell
 pip install -r requirements.txt
 ```
+
 Docker: Run docker and pull airstudio's image. You can extract it from Docker Hub by running the following command in your terminal.
 ```shell
 docker pull airstudio/gaussian-splatting
 ```
+
 Docker + Nvidia toolkit (follow the instructions). You might need to install the following pack since Inria's code uses GPUs and CUDA environment.
 ```shell
 https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
 ```
-
+# Folder structure
+.
+└── MY_FLASK_APP/
+    ├── data/
+    │   └── input
+    ├── static/
+    │   ├── .scss
+    │   ├── .js
+    │   ├── .css
+    │   └── .css.map
+    ├── templates/
+    │   ├── index.html
+    │   ├── upload.html
+    │   └── splat.html
+    ├── app.py
+    ├── views.py
+    ├── Dockerfile
+    ├── requirements.txt
+    └── README.md
+    
 # Usage
 Before starting to use your Flask Application you must have Docker running and the gaussian splat image available. You can verify this by running:
 ```shell
@@ -58,3 +90,7 @@ it also means that it will take longer to train. The Flask app will create the t
 
 As soon as all the fields are completed you can press the Upload button and wait for the video to be processed and the splat model to be trained. Once the process is done, you can access to 
 the Splat Viewer through the link provided and check out your splat. The app will automatically select the model trained with the most iteratiotns and display it using Antimatter WebGL implementation.
+
+# Cleaning the data
+After your first set of splat models are trained and saved in a zip file, you can start processing another video. However, first you have to clean the data folder and it's contents before doing so. After pressing the "clean" button (trash-can icon)
+it will erase all the content from the data local directory while keeping the data and input folder emptied. Once this process is done you can continue saving Gaussian Splat models.
