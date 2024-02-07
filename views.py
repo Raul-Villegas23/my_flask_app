@@ -112,6 +112,13 @@ def download_zip():
 @views.route('/upload', methods=['GET', 'POST'])
 def upload_video():
     if request.method == 'POST':
+         # Clean the data folder before starting a new upload
+        try:
+            clean_data()
+        except Exception as e:
+            # Log the error
+            print(f"Error cleaning data folder: {e}")
+
         file = request.files.get('file')
         fps = request.form.get('fps', '2')  # Default to 2 if not provided
 
