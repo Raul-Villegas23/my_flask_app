@@ -1,28 +1,40 @@
-#Use an official Python runtime as a parent image with GPU support
-FROM python:3.11-slim
+# Use an official Python runtime as a parent image
+FROM python:3.8-slim
 
-# Set the working directory in the container
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Set work directory
 WORKDIR /app
+
+# Install FFmpeg
+RUN apt-get update && \
+    apt-get install -y ffmpeg && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install Docker CLI using the convenience script (for testing and development purposes)
+RUN apt-get update && \
+    apt-get install -y curl && \
+    curl -fsSL https://get.docker.com -o get-docker.sh && \
+    sh get-docker.sh
+
 
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Install FFmpeg
-RUN apt-get -y update && \
-    apt-get -y upgrade && \
-    apt-get install -y ffmpeg && \
-    rm -rf /var/lib/apt/lists/*
-
+# Create a directory for the output files
+RUN mkdir -p /data/output && chmod -R 777 /data/output
 
 # Install any needed packages specified in requirements.txt
-RUN pip install  -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-#Expose the port the app runs on
-EXPOSE 5001
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
 
-# Define environment variables
-ENV FLASK_APP=app.py
-ENV FLASK_RUN_HOST=0.0.0.0
+# Define environment variable
+ENV NAME World
 
 # Run app.py when the container launches
-CMD ["flask", "run", "--host=0.0.0.0", "--port=5001"]
+CMD ["flask", "run", "--host=0.0.0.0"]

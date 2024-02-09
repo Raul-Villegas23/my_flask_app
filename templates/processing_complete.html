@@ -1,0 +1,26 @@
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <title>Processing Complete</title>
+</head>
+<body>
+    <script>
+        // Check local storage for dark mode state and apply it
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        document.body.classList.toggle('dark-theme', isDarkMode);
+    </script>
+        <div class="dark-mode-toggle-container">
+            <!-- Dark Mode Toggle Button with initial sun icon -->
+            <button id="darkModeToggle" class="dark-mode-toggle" onclick="toggleDarkMode()">
+                <i id="darkModeIcon" class="fas fa-sun"></i> <!-- Sun icon for light mode -->
+            </button>
+        </div>
+    <h1>Processing Complete!</h1>
+    <p>Your video has been processed successfully.</p>
+    <p>What would you like to do next?</p>
+    <ul>
+        <li><a href="{{ url_for('views.splat_viewer') }}">Open Splat viewer</a></li>
+        <li><a href="{{ url_for('views.download_zip') }}">Download Splat model</a></li>
+    </ul>
+    <script src="{{ url_for('static', filename='dark-mode.js') }}"></script>
+</body>

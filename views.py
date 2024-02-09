@@ -8,15 +8,23 @@ from werkzeug.utils import secure_filename
 import ffmpeg
 import zipfile
 
+# Create a Blueprint for the views
 views = Blueprint(__name__, 'views')
 
+# Define the upload folder and allowed file extensions
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'data')
 ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov', 'wmv', 'crdownload', 'webm', 'flv', 'mkv'}
 OUTPUT_ZIP_FILE = 'output.zip' # Name of the output zip file
 
+# Define the input folder path inside UPLOAD_FOLDER
+input_folder = os.path.join(UPLOAD_FOLDER, "input")
+os.makedirs(input_folder, exist_ok=True)
+
+# Function to check if the file extension is allowed
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+# This function will zip the output folder
 def zip_output_folder(output_folder_path, zip_file_path):
     with zipfile.ZipFile(zip_file_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
         for root, dirs, files in os.walk(output_folder_path):
@@ -24,28 +32,26 @@ def zip_output_folder(output_folder_path, zip_file_path):
                 file_path = os.path.join(root, file)
                 zipf.write(file_path, os.path.relpath(file_path, output_folder_path))
 
+# This route will serve the home page
 @views.route('/')
 def home():
     return render_template('index.html')
 
 # This function will return the latest iteration folder from the output/point_cloud directory
 def get_latest_iteration_folder(base_path='data/output/point_cloud'):
-    # List all directories in the base_path
     try:
         dirs = [d for d in os.listdir(base_path) if os.path.isdir(os.path.join(base_path, d))]
     except FileNotFoundError:
-        # Handle the case where the directory doesn't exist
         return None
 
-    # Filter and sort directories by iteration number
     iteration_dirs = sorted(
         (d for d in dirs if re.match(r'iteration_\d+', d)),
         key=lambda x: int(x.split('_')[1]),
         reverse=True
     )
-    # Return the first directory (highest iteration) or None if no directories found
     return iteration_dirs[0] if iteration_dirs else None
 
+# This function will clean the data folder by removing all files and directories except the input folder
 def clean_data_folder(data_folder='data'):
     input_folder = os.path.join(data_folder, 'input')
 
@@ -67,7 +73,7 @@ def clean_data_folder(data_folder='data'):
             # Remove files in data folder
             os.unlink(item_path)
 
-# This route will clean the data folder by removing all files and directories except the input folder
+
 @views.route ('/clean-data', methods=['GET'])
 def clean_data():
     try:
@@ -99,7 +105,7 @@ def latest_output_file():
 
     return send_from_directory(os.path.join('data/output/point_cloud', latest_iteration_dir), 'point_cloud.ply')
 
-#This route will download the output zip file from the data folder
+# This route will download the output zip file from the data folder
 @views.route('/download')
 def download_zip():
     zip_file_path = os.path.join(UPLOAD_FOLDER, OUTPUT_ZIP_FILE)  # Path for the zip file
@@ -133,7 +139,8 @@ def upload_video():
                 zip_file_path = os.path.join(UPLOAD_FOLDER, OUTPUT_ZIP_FILE)
                 zip_output_folder(output_folder, zip_file_path)
 
-                return redirect(url_for('views.download_zip'))
+                # Inform the user that processing is complete and provide options
+                return render_template('processing_complete.html')
             except Exception as e:
                 # Log the exception
                 return f'An error occurred: {str(e)}', 500
@@ -144,26 +151,27 @@ def upload_video():
 
 # This function will process the video using FFmpeg and Gaussian Splatting docker container
 def process_video(filepath, fps):
-    # Modify the FFmpeg command to save images in the "input" folder
+    # Get the iterations from the form
     iterations_1 = request.form.get('iterations_1')
     iterations_2 = request.form.get('iterations_2')
 
+    # FFmpeg command to extract frames from the video
     ffmpeg_command = [
         "ffmpeg", "-i", os.path.join(UPLOAD_FOLDER, os.path.basename(filepath)),
         "-qscale:v", "1", "-qmin", "1", "-vf", f"fps={fps}",
         os.path.join(UPLOAD_FOLDER, "input/%04d.jpg")
     ]
 
-    # Docker commands for Gaussian Splatting
+    # Docker commands for Gaussian Splatting convert and train
     gaussian_splatting_command_convert = [
-        "docker", "run", "--rm", "--gpus", "all", "-it",
+        "docker", "run", "--rm", "--gpus", "all", 
         "-v", f"{UPLOAD_FOLDER}:/workspace",
         "airstudio/gaussian-splatting", "/bin/bash", "-c",
         "cd gaussian-splatting && python3 convert.py -s /workspace"
     ]
 
     gaussian_splatting_command_train = [
-        "docker", "run", "--rm", "--gpus", "all", "-it",
+        "docker", "run", "--rm", "--gpus", "all", 
         "-v", f"{UPLOAD_FOLDER}:/workspace",
         "airstudio/gaussian-splatting", "/bin/bash", "-c",
         f"cd gaussian-splatting && python3 train.py --iterations {iterations_2} --save_iterations {iterations_1} {iterations_2} -s /workspace -m /workspace/output",
@@ -185,7 +193,6 @@ def process_video(filepath, fps):
         error_message = e.stderr.decode('utf-8') if e.stderr else 'An error occurred without error message.'
         print("An error occurred:", error_message)
 
-
     try:
         # Execute Gaussian Splatting train command
         subprocess.run(gaussian_splatting_command_train, check=True)
@@ -193,12 +200,3 @@ def process_video(filepath, fps):
         # Capture and print the error details
         error_message = e.stderr.decode('utf-8') if e.stderr else 'An error occurred without error message.'
         print("An error occurred:", error_message)
-
-
-# Define the input folder path inside UPLOAD_FOLDER
-input_folder = os.path.join(UPLOAD_FOLDER, "input")
-os.makedirs(input_folder, exist_ok=True)
-
-
-
-
