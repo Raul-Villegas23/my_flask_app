@@ -2,35 +2,12 @@
     <title>Upload Video</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+        <!-- Add the cleanup.js and dark-mode.js scripts -->
+    <script src="{{ url_for('static', filename='cleanup.js') }}"></script>
+    <script src="{{ url_for('static', filename='dark-mode.js') }}"></script>
+    <script src="{{ url_for('static', filename='spinner.js') }}"></script>
 </head>
 <body>
-    <!-- Toggle dark-mode.js and loading spinner scripts -->
-    <script>
-        // Check local storage for dark mode state and apply it
-        const isDarkMode = localStorage.getItem('darkMode') === 'true';
-        document.body.classList.toggle('dark-theme', isDarkMode);
-    
-        // Check sessionStorage for the loading spinner visibility state
-        const isSpinnerVisible = sessionStorage.getItem('loadingSpinnerVisible') === 'true';
-        if (isSpinnerVisible) {
-            document.getElementById('loadingSpinner').style.display = 'block';
-        }
-    
-        // Function to show the loading spinner
-        function showLoadingSpinner() {
-            // Set sessionStorage flag to indicate loading spinner visibility
-            sessionStorage.setItem('loadingSpinnerVisible', 'true');
-            document.getElementById('loadingSpinner').style.display = 'block';
-        }
-    
-        // Function to keep the loading spinner visible during processing
-        function keepLoadingSpinnerVisible() {
-            const isSpinnerVisible = sessionStorage.getItem('loadingSpinnerVisible') === 'true';
-            if (isSpinnerVisible) {
-                document.getElementById('loadingSpinner').style.display = 'block';
-            }
-        }
-    </script>
     <!-- Dark Mode Toggle Button -->
     <div class="dark-mode-toggle-container">
         <!-- Dark Mode Toggle Button with initial sun icon -->
@@ -82,7 +59,5 @@
                 <i class="fas fa-trash-alt"></i> <!-- Trash can icon -->
             </button>
         </form>
-        <!-- Add the cleanup.js and dark-mode.js scripts -->
-        <script src="{{ url_for('static', filename='cleanup.js') }}"></script>
-        <script src="{{ url_for('static', filename='dark-mode.js') }}"></script>
+
 </body>

@@ -149,7 +149,7 @@ def upload_video():
 
     return render_template('upload.html')
 
-# This function will process the video using FFmpeg and Gaussian Splatting docker container
+# This function will process the video using FFmpeg and Gaussian Splatting docker containers
 def process_video(filepath, fps):
     # Get the iterations from the form
     iterations_1 = request.form.get('iterations_1')
@@ -164,14 +164,14 @@ def process_video(filepath, fps):
 
     # Docker commands for Gaussian Splatting convert and train
     gaussian_splatting_command_convert = [
-        "docker", "run", "--rm", "--gpus", "all", 
+        "docker", "run", "--rm", "--gpus", "all", "-it",
         "-v", f"{UPLOAD_FOLDER}:/workspace",
         "airstudio/gaussian-splatting", "/bin/bash", "-c",
         "cd gaussian-splatting && python3 convert.py -s /workspace"
     ]
 
     gaussian_splatting_command_train = [
-        "docker", "run", "--rm", "--gpus", "all", 
+        "docker", "run", "--rm", "--gpus", "all", "-it",
         "-v", f"{UPLOAD_FOLDER}:/workspace",
         "airstudio/gaussian-splatting", "/bin/bash", "-c",
         f"cd gaussian-splatting && python3 train.py --iterations {iterations_2} --save_iterations {iterations_1} {iterations_2} -s /workspace -m /workspace/output",
